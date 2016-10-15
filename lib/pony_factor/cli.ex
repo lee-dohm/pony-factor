@@ -4,6 +4,10 @@ defmodule PonyFactor.CLI do
   """
 
   def main(_args) do
-    IO.puts("Hello from MyApp!")
+    {options, [location | _]} = OptionParser.parse!(System.argv, strict: [directory: :boolean])
+
+    location
+    |> PonyFactor.calculate(options)
+    |> PonyFactor.display
   end
 end

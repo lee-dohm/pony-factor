@@ -1,3 +1,5 @@
+require Logger
+
 defmodule PonyFactor do
   @moduledoc """
   Calculates the [Pony Factor](https://ke4qqq.wordpress.com/2015/02/08/pony-factor-math/) of a GitHub

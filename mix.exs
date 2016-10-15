@@ -46,7 +46,8 @@ defmodule PonyFactor.Mixfile do
 
   defp escript do
     [
-      main_module: PonyFactor.CLI
+      main_module: PonyFactor.CLI,
+      path: "bin/pony-factor"
     ]
   end
 end
