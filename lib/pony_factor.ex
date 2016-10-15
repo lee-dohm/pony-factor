@@ -15,9 +15,10 @@ defmodule PonyFactor do
   `:directory` option is specified. If a GitHub repository is specified, the repo will be cloned
   to the local filesystem for the calculations and then deleted afterward.
 
-  It returns a list of two-element tuples of the form `{name, commit_count}` where:
+  It returns a list of three-element tuples of the form `{name, date, commit_count}` where:
 
   * `name` is the display name of the contributor
+  * `date` is the date of the latest commit from that contributor
   * `commit_count` is the number of commits that person has contributed
 
   The list is sorted from most commits to least.
@@ -46,7 +47,7 @@ defmodule PonyFactor do
   def calculate(path, directory: true), do: calculate_from_local_repo(path)
 
   def calculate(nwo, _) do
-    {clone_dir, 0} = Git.clone(nwo)
+    {clone_dir, 0} = PonyFactor.Git.clone(nwo)
 
     pony_list = calculate_from_local_repo(clone_dir)
 
@@ -67,7 +68,7 @@ defmodule PonyFactor do
   end
 
   defp calculate_from_local_repo(clone_dir) do
-    commits = Git.commit_list(clone_dir)
+    commits = PonyFactor.Git.commit_list(clone_dir)
     commit_count = Enum.count(commits)
 
     Logger.info("Calculate Pony Factor")

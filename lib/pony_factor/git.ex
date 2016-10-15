@@ -1,6 +1,6 @@
 require Logger
 
-defmodule Git do
+defmodule PonyFactor.Git do
   @moduledoc """
   Interfaces with Git to extract needed information from the repository.
   """

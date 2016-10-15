@@ -3,8 +3,8 @@ defmodule PonyFactor.CLI do
   Provides the command-line interface (CLI) for the Pony Factor tool.
   """
 
-  def main(_args) do
-    {options, [location | _]} = OptionParser.parse!(System.argv, strict: [directory: :boolean])
+  def main(args) do
+    {options, [location | _]} = OptionParser.parse!(args, strict: [directory: :boolean])
 
     location
     |> PonyFactor.calculate(options)

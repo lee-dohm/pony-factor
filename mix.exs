@@ -30,7 +30,8 @@ defmodule PonyFactor.Mixfile do
   defp deps do
     [
       {:ex_doc, "~> 0.14", only: :dev},
-      {:timex, "~> 3.0"}
+      {:timex, "~> 3.0"},
+      {:tzdata, "~> 0.1.8", override: true}
     ]
   end
 
