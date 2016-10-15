@@ -10,7 +10,19 @@ defmodule PonyFactor.Mixfile do
       elixir: "~> 1.3",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      deps: deps()
+      deps: deps(),
+
+      # Docs
+      name: "PonyFactor",
+      source_url: "https://github.com/lee-dohm/pony-factor",
+      homepage_url: "https://github.com/lee-dohm/pony-factor",
+      docs: [
+        main: "PonyFactor",
+        extras: [
+          "LICENSE.md",
+          "README.md"
+        ]
+      ]
     ]
   end
 
@@ -33,6 +45,9 @@ defmodule PonyFactor.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:timex, "~> 3.0"}]
+    [
+      {:ex_doc, "~> 0.14", only: :dev},
+      {:timex, "~> 3.0"}
+    ]
   end
 end
