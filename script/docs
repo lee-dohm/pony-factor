@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# script/docs: Generate the documentation for the application.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+script/update
+mix docs
