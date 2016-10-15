@@ -1,7 +1,7 @@
 defmodule PonyFactor.Mixfile do
   use Mix.Project
 
-  @version "0.1.0"
+  @version String.trim(File.read!("VERSION"))
 
   def project do
     [
