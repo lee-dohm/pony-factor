@@ -51,4 +51,8 @@ defmodule PonyFactorTest do
                               Pony Factor = 1
                               """
   end
+
+  test "when given an empty list calculate returns an error" do
+    assert PonyFactor.calculate([]) == {:error, "No commits were found!"}
+  end
 end

@@ -47,6 +47,7 @@ defmodule PonyFactor do
 
   def calculate(path, directory: true), do: calculate_from({:path, path})
   def calculate(nwo, _) when is_binary(nwo), do: calculate_from({:github, nwo})
+  def calculate([], _), do: {:error, "No commits were found!"}
 
   def calculate(commits, []) when is_list(commits) do
     Logger.info("Calculate Pony Factor")
