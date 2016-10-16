@@ -36,15 +36,27 @@ defmodule PonyFactor.Git do
   """
   def commit_list(target) do
     Logger.info("Get commit list")
-    {output, 0} = System.cmd("git", ["log", "--format=%h %ai %an"], cd: target)
-    split_commits(output)
+
+    target
+    |> commit_list_text
+    |> split_commits
   end
 
   defp create_url(nwo), do: "https://github.com/#{nwo}.git"
 
-  defp split_commits(output) do
+  defp commit_list_text(target) do
+    case System.cmd("git", ["log", "--format=%h %ai %an"], cd: target, stderr_to_stdout: true) do
+      {output, 0} -> {:ok, output}
+      {_, error_code} -> {:error, error_code}
+    end
+  end
+
+  defp split_commits({:error, error_code}), do: {:error, error_code}
+
+  defp split_commits({:ok, output}) do
     output
     |> String.split("\n")
+    |> Enum.filter(fn(line) -> String.length(line) > 0 end)
     |> Enum.map(fn(line) ->
          captures = Regex.named_captures(@commit_pattern, line)
 
