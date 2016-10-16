@@ -67,9 +67,10 @@ defmodule PonyFactor do
 
   def display(list_or_error, kernel_module \\ Kernel)
 
-  def display({:error, message}, kernel_module) do
-    IO.puts(message)
-    kernel_module.exit({:shutdown, 1})
+  def display(pony_list, _) when is_list(pony_list) do
+    display_pony_list(pony_list)
+    IO.puts(nil)
+    IO.puts("Augmented Pony Factor = #{Enum.count(pony_list)}")
   end
 
   def display({pony_list, {commits, target}}, _) do
@@ -80,10 +81,9 @@ defmodule PonyFactor do
     IO.puts("Pony Factor = #{Enum.count(pony_list)}")
   end
 
-  def display(pony_list, _) when is_list(pony_list) do
-    display_pony_list(pony_list)
-    IO.puts(nil)
-    IO.puts("Augmented Pony Factor = #{Enum.count(pony_list)}")
+  def display({:error, message}, kernel_module) do
+    IO.puts(message)
+    kernel_module.exit({:shutdown, 1})
   end
 
   defp calculate_from_local_repo(clone_dir) do
