@@ -1,4 +1,4 @@
-ExUnit.start(capture_log: true)
+ExUnit.start()
 
 defmodule Helpers do
   def fixture_path(name), do: Path.join("./test/fixtures", name)
