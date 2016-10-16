@@ -55,6 +55,16 @@ defmodule PonyFactor do
     pony_list
   end
 
+  def calculate_from_list(commits) do
+    Logger.info("Calculate Pony Factor")
+
+    commits
+    |> collect_committers
+    |> sort_committers
+    |> filter_committers
+    |> pony(Enum.count(commits))
+  end
+
   def display(list_or_error, kernel_module \\ Kernel)
 
   def display({:error, message}, kernel_module) do
@@ -70,16 +80,9 @@ defmodule PonyFactor do
   end
 
   defp calculate_from_local_repo(clone_dir) do
-    commits = PonyFactor.Git.commit_list(clone_dir)
-    commit_count = Enum.count(commits)
-
-    Logger.info("Calculate Pony Factor")
-
-    commits
-    |> collect_committers
-    |> sort_committers
-    |> filter_committers
-    |> pony(commit_count)
+    clone_dir
+    |> PonyFactor.Git.commit_list
+    |> calculate_from_list
   end
 
   defp collect_committers(commits), do: collect_committers(%{}, commits)
