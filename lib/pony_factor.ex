@@ -1,4 +1,5 @@
 require Logger
+use Timex
 
 defmodule PonyFactor do
   @moduledoc """
@@ -108,19 +109,11 @@ defmodule PonyFactor do
   defp display_pony_list(list), do: Enum.each(list, fn({name, date, count}) -> IO.puts("#{name}\t#{count}\t#{date}") end)
 
   defp filter_committers(committers) do
-    now = DateTime.utc_now
-    year = Integer.to_string(now.year - 1)
-    month = pad_date_part(now.month)
-    day = pad_date_part(now.day)
-    one_year_ago = "#{year}-#{month}-#{day}"
+    one_year_ago = Timex.shift(Timex.now, years: -1)
 
-    Enum.filter(committers, fn({_, commit_date, _}) -> one_year_ago < commit_date end)
-  end
-
-  defp pad_date_part(part) do
-    part
-    |> Integer.to_string
-    |> String.pad_leading(2, "0")
+    Enum.filter(committers, fn({_, commit_date, _}) ->
+      Timex.compare(one_year_ago, Timex.parse!(commit_date, "%F %T %z", :strftime)) == -1
+    end)
   end
 
   defp max_date(a, b) when a > b, do: a
