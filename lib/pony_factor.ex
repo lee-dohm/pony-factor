@@ -60,7 +60,7 @@ defmodule PonyFactor do
     exit({:shutdown, 1})
   end
 
-  def display(pony_list) do
+  def display(pony_list) when is_list(pony_list) do
     Enum.each(pony_list, fn({name, date, count}) -> IO.puts("#{name}\t#{count}\t#{date}") end)
 
     IO.puts(nil)
