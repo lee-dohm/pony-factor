@@ -75,7 +75,9 @@ defmodule PonyFactor do
   def display({pony_list, {commits, target}}, _) do
     IO.puts("Augmented Pony Factor is undefined: only #{Float.round(commits / (target / @commit_percentage) * 100, 2)}% of commits are covered by committers who are still active")
     IO.puts(nil)
+
     display_pony_list(pony_list)
+
     IO.puts(nil)
     IO.puts("Pony Factor = #{Enum.count(pony_list)}")
   end
@@ -104,6 +106,8 @@ defmodule PonyFactor do
 
   defp collect_committers(committers, []), do: committers
   defp collect_committers(committers, [{_, date, name} | commits]) do
+    date = parse_git_date(date)
+
     {_, new_committers} = Map.get_and_update(committers, name, fn
                             nil                     -> {name, {name, date, 1}}
                             {_, commit_date, count} -> {name, {name, max_date(date, commit_date), count + 1}}
@@ -118,12 +122,18 @@ defmodule PonyFactor do
     one_year_ago = Timex.shift(Timex.now, years: -1)
 
     Enum.filter(committers, fn({_, commit_date, _}) ->
-      Timex.compare(one_year_ago, Timex.parse!(commit_date, "%F %T %z", :strftime)) == -1
+      Timex.compare(one_year_ago, commit_date) == -1
     end)
   end
 
-  defp max_date(a, b) when a > b, do: a
-  defp max_date(_, b), do: b
+  defp max_date(a, b) do
+    case Timex.compare(a, b) do
+      -1 -> b
+      _  -> a
+    end
+  end
+
+  defp parse_git_date(date), do: Timex.parse!(date, "%F %T %z", :strftime)
 
   defp pony(committers, commit_count) do
     pony(0, [], committers, commit_count * @commit_percentage)
