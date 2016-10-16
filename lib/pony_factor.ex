@@ -46,7 +46,7 @@ defmodule PonyFactor do
 
   def calculate(path, directory: true), do: calculate_from_local_repo(path)
 
-  def calculate(nwo, _) do
+  def calculate(nwo, _) when is_binary(nwo) do
     {clone_dir, 0} = PonyFactor.Git.clone(nwo)
 
     pony_list = calculate_from_local_repo(clone_dir)
@@ -55,7 +55,7 @@ defmodule PonyFactor do
     pony_list
   end
 
-  def calculate_from_list(commits) do
+  def calculate(commits, []) when is_list(commits) do
     Logger.info("Calculate Pony Factor")
 
     commits
@@ -72,17 +72,24 @@ defmodule PonyFactor do
     kernel_module.exit({:shutdown, 1})
   end
 
-  def display(pony_list, _) when is_list(pony_list) do
-    Enum.each(pony_list, fn({name, date, count}) -> IO.puts("#{name}\t#{count}\t#{date}") end)
-
+  def display({pony_list, {commits, target}}, _) do
+    IO.puts("Augmented Pony Factor is undefined: only #{Float.round(commits / (target / @commit_percentage) * 100, 2)}% of commits are covered by committers who are still active")
+    IO.puts(nil)
+    display_pony_list(pony_list)
     IO.puts(nil)
     IO.puts("Pony Factor = #{Enum.count(pony_list)}")
+  end
+
+  def display(pony_list, _) when is_list(pony_list) do
+    display_pony_list(pony_list)
+    IO.puts(nil)
+    IO.puts("Augmented Pony Factor = #{Enum.count(pony_list)}")
   end
 
   defp calculate_from_local_repo(clone_dir) do
     clone_dir
     |> PonyFactor.Git.commit_list
-    |> calculate_from_list
+    |> calculate
   end
 
   defp collect_committers(commits), do: collect_committers(%{}, commits)
@@ -96,6 +103,8 @@ defmodule PonyFactor do
 
     collect_committers(new_committers, commits)
   end
+
+  defp display_pony_list(list), do: Enum.each(list, fn({name, date, count}) -> IO.puts("#{name}\t#{count}\t#{date}") end)
 
   defp filter_committers(committers) do
     now = DateTime.utc_now
