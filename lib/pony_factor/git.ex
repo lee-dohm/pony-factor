@@ -44,12 +44,14 @@ defmodule PonyFactor.Git do
 
   defp create_url(nwo), do: "https://github.com/#{nwo}.git"
 
-  defp commit_list_text(target) do
-    case System.cmd("git", ["log", "--format=%h %ai %an"], cd: target, stderr_to_stdout: true) do
+  defp command(command, args, options) do
+    case System.cmd(command, args, options) do
       {output, 0} -> {:ok, output}
       {_, error_code} -> {:error, error_code}
     end
   end
+
+  defp commit_list_text(target), do: command("git", ["log", "--format=%h %ai %an"], cd: target, stderr_to_stdout: true)
 
   defp split_commits({:error, error_code}), do: {:error, error_code}
 
