@@ -58,7 +58,13 @@ defmodule PonyFactor do
     |> pony(Enum.count(commits))
   end
 
-  def display(list_or_error, kernel_module \\ Kernel)
+  @doc """
+  Displays the results of the calculation.
+  """
+  def display(list_or_error), do: display(list_or_error, Kernel)
+
+  @doc false
+  def display(list_or_error, kernel_module)
 
   def display(pony_list, _) when is_list(pony_list) do
     display_pony_list(pony_list)
