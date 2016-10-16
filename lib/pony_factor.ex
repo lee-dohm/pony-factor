@@ -44,16 +44,8 @@ defmodule PonyFactor do
   """
   def calculate(location, options \\ [])
 
-  def calculate(path, directory: true), do: calculate_from_local_repo(path)
-
-  def calculate(nwo, _) when is_binary(nwo) do
-    {clone_dir, 0} = PonyFactor.Git.clone(nwo)
-
-    pony_list = calculate_from_local_repo(clone_dir)
-
-    File.rm_rf!(clone_dir)
-    pony_list
-  end
+  def calculate(path, directory: true), do: calculate_from({:path, path})
+  def calculate(nwo, _) when is_binary(nwo), do: calculate_from({:github, nwo})
 
   def calculate(commits, []) when is_list(commits) do
     Logger.info("Calculate Pony Factor")
@@ -86,7 +78,16 @@ defmodule PonyFactor do
     kernel_module.exit({:shutdown, 1})
   end
 
-  defp calculate_from_local_repo(clone_dir) do
+  defp calculate_from({:github, nwo}) do
+    {clone_dir, 0} = PonyFactor.Git.clone(nwo)
+
+    pony_list = calculate_from({:path, clone_dir})
+
+    File.rm_rf!(clone_dir)
+    pony_list
+  end
+
+  defp calculate_from({:path, clone_dir}) do
     clone_dir
     |> PonyFactor.Git.commit_list
     |> calculate
