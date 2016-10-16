@@ -55,12 +55,14 @@ defmodule PonyFactor do
     pony_list
   end
 
-  def display({:error, message}) do
+  def display(list_or_error, kernel_module \\ Kernel)
+
+  def display({:error, message}, kernel_module) do
     IO.puts(message)
-    exit({:shutdown, 1})
+    kernel_module.exit({:shutdown, 1})
   end
 
-  def display(pony_list) when is_list(pony_list) do
+  def display(pony_list, _) when is_list(pony_list) do
     Enum.each(pony_list, fn({name, date, count}) -> IO.puts("#{name}\t#{count}\t#{date}") end)
 
     IO.puts(nil)
