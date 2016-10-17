@@ -5,6 +5,21 @@ defmodule PonyFactor do
   @moduledoc """
   Calculates the [Pony Factor](https://ke4qqq.wordpress.com/2015/02/08/pony-factor-math/) of a GitHub
   repository.
+
+  The Pony Factor of a repository is the smallest number of contributors that, when totalling the
+  number of commits for each contributor, equals 50% or more of the commits in the repository.
+
+  This is a measure of the "health" of a project based on the idea that a higher number means:
+
+  * More people understand the codebase, increasing resiliency in the face of long-term contributor
+    turnover
+  * More people contributing significantly means that the codebase is more approachable
+
+  There is also an Augmented Pony Factor that only takes into account the contributors that are
+  considered "active". By default, the definition of active is that they have added a commit in the
+  last year.
+
+  **Note:** In neither case is the size of the commits taken into account.
   """
 
   @commit_percentage 0.5
@@ -25,17 +40,6 @@ defmodule PonyFactor do
   The list is sorted from most commits to least.
 
   You can get the length of the list to determine the Pony Factor number.
-
-  ### Pony Factor
-
-  The Pony Factor of a repository is the smallest number of contributors that, when totalling the
-  number of commits for each contributor, equals 50% or more of the commits in the repository.
-
-  This is a measure of the "health" of a project based on the idea that a higher number means:
-
-  * More people understand the codebase, increasing resiliency in the face of long-term contributor
-    turnover
-  * More people contributing significantly means that the codebase is more approachable
 
   ### Options
 
