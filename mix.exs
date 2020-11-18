@@ -7,17 +7,17 @@ defmodule PonyFactor.Mixfile do
     [
       app: :pony_factor,
       version: @version,
-      elixir: "~> 1.3",
+      elixir: "~> 1.11",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps(),
-      escript: escript,
+      escript: escript(),
 
       # Docs
       name: "PonyFactor",
       source_url: "https://github.com/lee-dohm/pony-factor",
       homepage_url: "https://github.com/lee-dohm/pony-factor",
-      docs: docs
+      docs: docs()
     ]
   end
 
@@ -29,7 +29,7 @@ defmodule PonyFactor.Mixfile do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.14", only: :dev},
+      {:ex_doc, "~> 0.23", only: :dev},
       {:timex, "~> 3.0"},
       {:tzdata, "~> 0.1.8", override: true}
     ]

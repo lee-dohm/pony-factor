@@ -1,0 +1,43 @@
+{
+  "entries": {
+    "brew": {
+      "elixir": {
+        "version": "1.11.2",
+        "bottle": {
+          "cellar": ":any_skip_relocation",
+          "prefix": "/usr/local",
+          "files": {
+            "big_sur": {
+              "url": "https://homebrew.bintray.com/bottles/elixir-1.11.2.big_sur.bottle.tar.gz",
+              "sha256": "9b7654b37bdb51dfd52e4b794153f305fa1b847e29d0d02427325e8e8cd1fb1a"
+            },
+            "catalina": {
+              "url": "https://homebrew.bintray.com/bottles/elixir-1.11.2.catalina.bottle.tar.gz",
+              "sha256": "44de459466702ce2534b211cf19bb0855a4af2ee7cc8b472574137fc8c1dcd0d"
+            },
+            "mojave": {
+              "url": "https://homebrew.bintray.com/bottles/elixir-1.11.2.mojave.bottle.tar.gz",
+              "sha256": "72c8d551c7a3c884b5be801fd64b03ea0d6ec00da8a7fd8dec2fbccb29afdf45"
+            },
+            "high_sierra": {
+              "url": "https://homebrew.bintray.com/bottles/elixir-1.11.2.high_sierra.bottle.tar.gz",
+              "sha256": "81ef2b9d5b6de22ef96175761afa61809eafc94719d3a67df85ef074217380a5"
+            }
+          }
+        }
+      }
+    }
+  },
+  "system": {
+    "macos": {
+      "big_sur": {
+        "HOMEBREW_VERSION": "2.5.11",
+        "HOMEBREW_PREFIX": "/usr/local",
+        "Homebrew/homebrew-core": "93ca3c41051b3ae2d5cda8152829b7fa69f5dbd6",
+        "CLT": "",
+        "Xcode": "12.2",
+        "macOS": "11.0.1"
+      }
+    }
+  }
+}
